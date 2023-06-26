@@ -9,11 +9,14 @@ for /f "delims=\" %%i in ("%pathBat%") do set host=%%i
 set pathPrivate=\\%host%\private\backup\%COMPUTERNAME%
 set pathPublic=\\%host%\public\backup\%COMPUTERNAME%
 
-set excludeDir=Temp
-
 set logDir=%pathPrivate%\log
 set logFile=%logDir%\%date:~-10,4%%date:~-5,2%%date:~-2,2%.log
-set pathFile=%pathPrivate%\path.txt
+set includeFile=%pathPrivate%\include.txt
+set excludeFile=%pathPrivate%\exclude.txt
+
+set excludeDir=Temp
+if exist %excludeFile% for /f "delims=" %%i in (%excludeFile%) do set excludeDir=%excludeDir% %%i
+echo %excludeDir%
 
 if not exist %pathPrivate% (mkdir %pathPrivate%)
 if not exist %pathPublic% (mkdir %pathPublic%)
@@ -23,7 +26,7 @@ if defined USERPROFILE (call :copy "%USERPROFILE%" "%pathPrivate%")
 if defined PUBLIC (call :copy "%PUBLIC%" "%pathPublic%")
 if defined ALLUSERPROFILE (call :copy "%ALLUSERPROFILE%" "%pathPublic%")
 if defined ProgramData (call :copy "%ProgramData%" "%pathPublic%")
-if exist %pathFile% for /f "delims=" %%i in (%pathFile%) do call :copy "%%i" "%pathPrivate%"
+if exist %includeFile% for /f "delims=" %%i in (%includeFile%) do call :copy "%%i" "%pathPrivate%"
 goto :EOF
 
 :copy
