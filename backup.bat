@@ -34,5 +34,5 @@ set pathFrom=%1
 set pathFrom=%pathFrom:"=%
 set pathTo=%2
 set pathTo=%pathTo:"=%
-if exist "%pathFrom%" ROBOCOPY "%pathFrom%" "%pathTo%\%pathFrom::=%" /MIR /E /XD %excludeDir% /XO /XJ /FFT /R:1 /W:0 /LOG+:%logfile% /TEE /NP
+if exist "%pathFrom%" ROBOCOPY "%pathFrom%" "%pathTo%\%pathFrom::=%" /MIR /XD %excludeDir% /XJ /FFT /R:1 /W:0 /LOG+:%logfile% /TEE /NP
 goto :EOF
